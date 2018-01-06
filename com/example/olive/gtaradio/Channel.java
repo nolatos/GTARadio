@@ -57,7 +57,7 @@ public class Channel{
         final int fps = 50;
 
         //Setting up the timer
-        timer = new Timer(false);
+        timer = new Timer(true);
         final Channel channel = this;
         timerTask = new TimerTask() {
             @Override
@@ -66,7 +66,7 @@ public class Channel{
 
 
                     currentSongTime += fps;
-                    if (currentSongTime >= songs.get(currentSong).getDuration()) {
+                    if (currentSongTime > 10000) {// >= songs.get(currentSong).getDuration()) {
                         currentSong++;
                         currentSongTime = 0;
                         if (currentSong >= songs.size()) {
