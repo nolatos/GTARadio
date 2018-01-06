@@ -24,7 +24,7 @@ public class Channel{
 
     private Timer timer;
     private TimerTask timerTask;
-    private int currentSongPosition = 0; //The position of the current time
+    private int currentSongTime = 0; //The position of the current time
 
     /**
      * Initiates the channel object
@@ -61,18 +61,22 @@ public class Channel{
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                currentSongPosition += fps;
-                if (currentSongPosition >= songs.get(currentSong).getDuration()) {
+                currentSongTime += fps;
+                if (currentSongTime >= songs.get(currentSong).getDuration()) {
                     currentSong++;
-                    currentSongPosition = 0;
+                    currentSongTime = 0;
                     if (currentSong >= songs.size()) {
                         currentSong = 0;
+                    }
+
+                    if (showingChannel.equals(this)) {
+                        songs.get(currentSong).play(currentSongTime);
                     }
                 }
             }
         };
 
-        timer.scheduleAtFixedRate(timerTask, 0, 1000 / (long)fps);
+        timer.scheduleAtFixedRate(timerTask, 0, fps);
     }
 
     /**
@@ -84,7 +88,7 @@ public class Channel{
 
 
             Song song = songs.get(currentSong);
-            song.play(currentSongPosition);
+            song.play(currentSongTime);
         }
 
     }
