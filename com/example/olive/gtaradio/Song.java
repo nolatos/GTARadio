@@ -38,7 +38,9 @@ public class Song {
         }
 
         playingSong = this;
-        player.seekTo(position);
+        if (position != 0) {
+            player.seekTo(position);
+        }
         player.start();
     }
 

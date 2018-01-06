@@ -57,21 +57,30 @@ public class Channel{
         final int fps = 50;
 
         //Setting up the timer
-        timer = new Timer(true);
+        timer = new Timer(false);
+        final Channel channel = this;
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                currentSongTime += fps;
-                if (currentSongTime >= songs.get(currentSong).getDuration()) {
-                    currentSong++;
-                    currentSongTime = 0;
-                    if (currentSong >= songs.size()) {
-                        currentSong = 0;
-                    }
+                try {
 
-                    if (showingChannel.equals(this)) {
-                        songs.get(currentSong).play(currentSongTime);
+
+                    currentSongTime += fps;
+                    if (currentSongTime >= songs.get(currentSong).getDuration()) {
+                        currentSong++;
+                        currentSongTime = 0;
+                        if (currentSong >= songs.size()) {
+                            currentSong = 0;
+                        }
+
+                        if (showingChannel != null && showingChannel.equals(channel)) {
+                            songs.get(currentSong).play(currentSongTime);
+
+                        }
                     }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
