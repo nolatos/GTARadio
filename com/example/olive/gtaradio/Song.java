@@ -21,7 +21,7 @@ public class Song {
      * Constructor creates the mediaplayer
      * @param assetFileDescriptor
      */
-    public Song(AssetFileDescriptor assetFileDescriptor) {
+    public Song(AssetFileDescriptor assetFileDescriptor, String string) {
         try {
             player.setDataSource(assetFileDescriptor.getFileDescriptor(),
                     assetFileDescriptor.getStartOffset(),
@@ -29,6 +29,7 @@ public class Song {
             player.prepare();
         } catch (IOException e) {
             e.printStackTrace();
+//            System.out.println(string);
         }
     }
 
@@ -48,7 +49,7 @@ public class Song {
         return player.getDuration();
     }
 
-    private void stop() {
+    void stop() {
         player.pause();
 
     }

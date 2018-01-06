@@ -43,7 +43,7 @@ public class Channel{
             for (String s : names) {
                 String string1 = string.concat("/" + s);
                 AssetFileDescriptor assetFileDescriptor = manager.openFd(string1);
-                Song song = new Song(assetFileDescriptor);
+                Song song = new Song(assetFileDescriptor, string1);
                 songs.add(song);
             }
 
@@ -66,7 +66,7 @@ public class Channel{
 
 
                     currentSongTime += fps;
-                    if (currentSongTime > 10000) {// >= songs.get(currentSong).getDuration()) {
+                    if (currentSongTime >= songs.get(currentSong).getDuration()) {
                         currentSong++;
                         currentSongTime = 0;
                         if (currentSong >= songs.size()) {
@@ -100,6 +100,14 @@ public class Channel{
             song.play(currentSongTime);
         }
 
+    }
+
+    /**
+     * Turns off radio
+     */
+    static void turnOffRadio() {
+        showingChannel.songs.get(showingChannel.currentSong).stop();
+        showingChannel = null;
     }
 
 

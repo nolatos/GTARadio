@@ -20,12 +20,16 @@ public class MainActivity extends AppCompatActivity {
     //Le buttons
     private Button nonStopPopButton;
     private Button losSantosRockButton;
+    private Button channelXButton;
+    private Button rebelRadioButton;
 
     private List<Button> buttons = new ArrayList<Button>();
 
     //Le channels
     private Channel nonStopPop;
     private Channel losSantosRock;
+    private Channel channelX;
+    private Channel rebelRadio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +41,33 @@ public class MainActivity extends AppCompatActivity {
         //Setting up the buttons
         this.nonStopPopButton = findViewById(R.id.nonStopPopButton);
         this.losSantosRockButton = findViewById(R.id.losSantosRock);
+        this.channelXButton = findViewById(R.id.channelX);
+        this.rebelRadioButton = findViewById(R.id.rebelRadio);
+
 
         //Adding all the buttons to the list
         this.buttons.addAll(
-                Arrays.asList(nonStopPopButton, losSantosRockButton)
+                Arrays.asList(nonStopPopButton, losSantosRockButton, channelXButton, rebelRadioButton)
         );
 
         //Initialising the channels
         nonStopPop = new Channel(this, "nonstop");
         losSantosRock = new Channel(this, "losSantosRock");
+        channelX = new Channel(this, "channelX");
+        rebelRadio = new Channel(this, "rebelRadio");
     }
 
-    public AssetManager getManager() {
-        return manager;
+
+    public void turnOff(View view) {
+        Channel.turnOffRadio();
+        resetButtons();
     }
 
     public void buttonPressed(View view) {
 
         final View viewCopy = view;
 
-        for (Button button : buttons) {
-            button.setBackgroundColor(Color.WHITE);
-            button.setTextColor(Color.BLACK);
-        }
+        resetButtons();
 
         //Setting up the correct colours
         try {
@@ -81,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 else if (viewCopy.equals(losSantosRockButton)) {
                     losSantosRock.select();
                 }
+                else if (viewCopy.equals(channelXButton)) {
+                    channelX.select();
+                }
+                else if (viewCopy.equals(rebelRadioButton)) {
+                    rebelRadio.select();
+                }
                 return null;
             }
         };
@@ -88,5 +102,14 @@ public class MainActivity extends AppCompatActivity {
         task.execute();
 
 
+    }
+
+    
+
+    private void resetButtons() {
+        for (Button button : buttons) {
+            button.setBackgroundColor(Color.WHITE);
+            button.setTextColor(Color.BLACK);
+        }
     }
 }
