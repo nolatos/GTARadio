@@ -106,8 +106,10 @@ public class Channel{
      * Turns off radio
      */
     static void turnOffRadio() {
-        showingChannel.songs.get(showingChannel.currentSong).stop();
-        showingChannel = null;
+        if (showingChannel != null) {
+            showingChannel.songs.get(showingChannel.currentSong).stop();
+            showingChannel = null;
+        }
     }
 
 
