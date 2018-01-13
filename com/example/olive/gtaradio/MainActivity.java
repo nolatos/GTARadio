@@ -31,30 +31,38 @@ public class MainActivity extends AppCompatActivity {
     private Channel channelX;
     private Channel rebelRadio;
 
+    private boolean started = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println(started);
+        if (!started) {
+            started = true;
+            manager = getAssets();
 
-        manager = getAssets();
-
-        //Setting up the buttons
-        this.nonStopPopButton = findViewById(R.id.nonStopPopButton);
-        this.losSantosRockButton = findViewById(R.id.losSantosRock);
-        this.channelXButton = findViewById(R.id.channelX);
-        this.rebelRadioButton = findViewById(R.id.rebelRadio);
+            //Setting up the buttons
+            this.nonStopPopButton = findViewById(R.id.nonStopPopButton);
+            this.losSantosRockButton = findViewById(R.id.losSantosRock);
+            this.channelXButton = findViewById(R.id.channelX);
+            this.rebelRadioButton = findViewById(R.id.rebelRadio);
 
 
-        //Adding all the buttons to the list
-        this.buttons.addAll(
-                Arrays.asList(nonStopPopButton, losSantosRockButton, channelXButton, rebelRadioButton)
-        );
+            //Adding all the buttons to the list
+            this.buttons.addAll(
+                    Arrays.asList(nonStopPopButton, losSantosRockButton, channelXButton, rebelRadioButton)
+            );
 
-        //Initialising the channels
-        nonStopPop = new Channel(this, "nonstop");
-        losSantosRock = new Channel(this, "losSantosRock");
-        channelX = new Channel(this, "channelX");
-        rebelRadio = new Channel(this, "rebelRadio");
+            //Initialising the channels
+            nonStopPop = new Channel(this, "nonstop");
+            losSantosRock = new Channel(this, "losSantosRock");
+            channelX = new Channel(this, "channelX");
+            rebelRadio = new Channel(this, "rebelRadio");
+        }
+
+
+
     }
 
 
@@ -104,7 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        started = false;
+        Channel.turnOffRadio();
+    }
+
 
     private void resetButtons() {
         for (Button button : buttons) {
